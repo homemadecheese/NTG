@@ -158,7 +158,8 @@ header nav ul {
 header nav a {
     color: #fff;
     text-decoration: none;
-    font-size: 1.5rem;
+    /* fonte responsiva mantendo proporções do design */
+    font-size: clamp(0.9rem, 1.6vw, 1.5rem);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     transition: color 0.3s;
 }
@@ -222,25 +223,29 @@ main {
 }
 
 .logo-container {
-    flex: 1;
-    height: 100%;
+    flex: 1 1 auto;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 #logo {
-    max-width: 460px;
+    width: 60%;
+    max-width: 600px;
+    /* limite superior em telas grandes */
+    min-width: 120px;
+    /* evita ficar muito pequeno */
     height: auto;
     animation: floatAndRotate 4s ease-in-out infinite;
-    filter: drop-shadow(5px 5px 8px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.6));
     user-select: none;
     -webkit-user-drag: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     pointer-events: none;
+    margin-top: 30px;
+    /* leve afastamento */
 }
+
 
 @keyframes floatAndRotate {
     0% {
@@ -267,7 +272,10 @@ main {
 .browser-window {
     width: 800px;
     max-width: 100%;
-    height: 560px;
+    /* altura responsiva: aumenta um pouco para destacar projetos */
+    height: 70vh;
+    min-height: 420px;
+    max-height: 820px;
     border: 2px outset #ccc;
     background-color: #c0c0c0;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
@@ -396,6 +404,38 @@ main {
     justify-content: center;
 }
 
+/* Espaçamento lateral em telas maiores para que os botões fiquem fora da imagem */
+@media (min-width: 769px) {
+    .carousel-container {
+        /* mantemos padding moderado no desktop para não deixar muito espaço */
+        padding: 0 60px;
+        /* cria área lateral onde os botões podem ficar sem cobrir a imagem */
+        box-sizing: border-box;
+    }
+
+    .carousel-btn {
+        /* posicionado via classes prev/next abaixo; não defina left+right juntos */
+        width: 52px;
+        height: 52px;
+        padding: 0;
+        font-size: 1.8rem;
+        border-radius: 8px;
+        background: #e6e6e6;
+        color: #000;
+        box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+        border: 1px solid rgba(0,0,0,0.08);
+    }
+
+    /* posiciona as setas dentro da área do browser-window, fora da imagem central */
+    .carousel-btn.prev {
+        left: 20px;
+    }
+
+    .carousel-btn.next {
+        right: 20px;
+    }
+}
+
 .carousel-slides {
     position: relative;
     width: 100%;
@@ -405,8 +445,14 @@ main {
 
 .carousel-slide {
     position: absolute;
+    /* <-- MUDANÇA */
+    top: 0;
+    /* <-- ADICIONADO */
+    left: 0;
+    /* <-- ADICIONADO */
     width: 100%;
     height: 100%;
+    /* <-- MUDANÇA (para preencher o container) */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -415,6 +461,195 @@ main {
     transition: opacity 0.5s ease-in-out;
     padding: 20px;
     text-align: center;
+    box-sizing: border-box;
+    /* Garante que o padding não quebre o layout */
+}
+
+/* Se o slide contiver uma imagem, torne-a camada de fundo para que o texto apareça por cima */
+.carousel-slide img {
+    width: 100%;
+    height: auto;
+    max-height: 460px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+    border-radius: 2px;
+    z-index: 1;
+}
+
+/* Indica que a imagem é clicável quando estiver dentro de um link */
+.carousel-slide a img,
+.carousel-slide img { 
+    cursor: pointer;
+}
+
+/* Estilo para vídeo de projeto no carrossel: responsivo e sem poster repetido */
+.project-media {
+    width: 100%;
+    max-width: 900px;
+    /* limita a largura do vídeo para caber melhor no layout do browser-window */
+    display: block;
+    margin: 0 auto 8px;
+    position: relative;
+    z-index: 3;
+    /* garante que o vídeo fique acima de outras camadas do slide */
+    /* impede que o vídeo ultrapasse o espaço visível do browser-window */
+    max-height: 64vh;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* Placeholder shown before iframe is injected */
+.project-media .embed-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    /* preto enquanto carrega */
+    color: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.project-media .embed-placeholder .open-youtube {
+    background: rgba(255, 255, 255, 0.95);
+    color: #000;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.project-media video {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+    /* reserva a proporção e evita controles verticais incomuns */
+    object-fit: cover;
+    background: #000;
+    /* fundo preto enquanto carrega */
+    border-radius: 4px;
+    display: block;
+}
+
+/* Estilo para embeds iframe (YouTube etc.) - torna o iframe responsivo
+   e preserva proporção sem usar atributos width/height no HTML */
+.project-media iframe,
+.project-media .embed-video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: 0;
+    background: #000;
+}
+
+/* Usamos aspect-ratio na caixa pai para manter 16:9 por padrão */
+.project-media {
+    aspect-ratio: 16/9;
+}
+
+/* Poster clickable that lazy-loads the actual video */
+.video-poster {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    cursor: pointer;
+    display: block;
+}
+
+.video-poster img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.video-poster .play-btn {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    border: none;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+
+.video-poster .play-btn:active {
+    transform: translate(-50%, -50%) scale(0.98);
+}
+
+@media (max-width: 768px) {
+    .project-media {
+        max-width: 100%;
+        aspect-ratio: 16/9;
+        /* mantém proporção em mobile */
+    }
+
+    .project-media video {
+        aspect-ratio: 16/9;
+        max-height: 360px;
+        /* limita altura em mobile sem quebrar o layout */
+    }
+}
+
+/* Estilos específicos quando o vídeo é vertical (portrait) */
+.project-media.vertical {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* portrait / vertical layout: força a proporção 9/16 */
+    aspect-ratio: 9/16;
+}
+
+.project-media.vertical video {
+    /* Vídeos verticais; limita largura e permite altura maior sem estourar o browser-window */
+    width: auto;
+    height: auto;
+    max-height: 70vh;
+    /* respeita a viewport e evita corte */
+    max-width: 100%;
+    aspect-ratio: 9/16;
+    object-fit: contain;
+    /* mostra o vídeo inteiro sem cortar */
+    border-radius: 6px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+/* Portrait iframe adjustments */
+.project-media.vertical .embed-video,
+.project-media.vertical iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+}
+
+@media (max-width: 768px) {
+    .project-media.vertical video {
+        height: min(60vh, 560px);
+        max-height: 75vh;
+    }
+}
+
+.carousel-slide h3,
+.carousel-slide p {
+    position: relative;
+    z-index: 2;
+    margin-top: 14px;
+    /* separa texto da imagem */
 }
 
 .carousel-slide.active {
@@ -424,13 +659,18 @@ main {
 .carousel-slide h3 {
     font-size: 2rem;
     margin-bottom: 15px;
-    color: #000080;
+    color: #fff;
+    /* garantir contraste sobre imagens */
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
 }
 
 .carousel-slide p {
     font-size: 1.2rem;
     line-height: 1.6;
     max-width: 80%;
+    color: #fff;
+    /* garantir contraste */
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
 }
 
 .carousel-btn {
@@ -505,6 +745,31 @@ main {
 
 .dot:hover {
     background-color: #a0a0a0;
+}
+
+/* Botão que leva para nossa equipe, posicionado abaixo dos dots */
+.carousel-action {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+}
+
+.go-equipe {
+    background: linear-gradient(180deg, #0b63b8, #0a4f94);
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.go-equipe:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .star {
@@ -665,6 +930,22 @@ main {
     color: rgba(255, 255, 255, 0.5);
 }
 
+.foto-placeholder {
+    /* garante que imagens maiores fiquem cortadas dentro do placeholder */
+    position: relative;
+    overflow: hidden;
+}
+
+.foto-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* posiciona a área focal mais para cima (mostra o rosto e um pouco acima) */
+    object-position: 50% 30%;
+    display: block;
+    border-radius: inherit;
+}
+
 .membro-card h4 {
     font-size: 1.2rem;
     margin-bottom: 5px;
@@ -672,8 +953,19 @@ main {
 
 .membro-card p {
     font-size: 1rem;
-    color: rgba(255, 255, 255, 0.7);
-    margin-top: auto;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 6px 0;
+}
+
+/* RGM e espaçamento específico dentro do card */
+.membro-card .rgm {
+    margin: 6px 0 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.membro-card .redes-sociais {
+    margin-top: 8px;
 }
 
 #contato .contato-links {
@@ -702,13 +994,23 @@ main {
 
 /* Tablets e dispositivos médios (até 1024px) */
 @media (max-width: 1024px) {
+
+    /* Mantém o logo visível em tablets — reduzimos o tamanho para preservar layout */
     .logo-container {
-        display: none;
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    #logo {
+        width: 50%;
+        max-width: 420px;
     }
 
     .browser-window {
-        width: 90%;
-        height: 500px;
+        width: 94%;
+        height: 56vh;
+        min-height: 300px;
     }
 
     main {
@@ -763,7 +1065,8 @@ main {
 
     .browser-window {
         width: 100%;
-        height: 450px;
+        /* altura reduzida para dispositivos móveis grandes, proporcional ao conteúdo */
+        height: 340px;
     }
 
     .browser-header {
@@ -801,22 +1104,70 @@ main {
         margin-bottom: 10px;
     }
 
+    /* Aumenta o card (imagem) no mobile grande para ficar mais parecido com desktop */
+    .carousel-container {
+        padding: 0 36px; /* espaço lateral para mostrar o fundo do site no mobile */
+        /* reduz a moldura lateral, permite imagem maior */
+    }
+
+    .carousel-slide img {
+        /* largura reduzida para criar margem lateral no mobile */
+        width: auto;
+        max-width: 86%;
+        max-height: 260px;
+        object-fit: cover;
+        display: block;
+        margin: 0 auto;
+    }
+
+    /* Layout horizontal do carrossel em dispositivos móveis: slides em linha e scroll controlado por JS */
+    .carousel-slides {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        overflow-x: hidden;
+        /* o JS controla o scroll */
+        scroll-behavior: smooth;
+    }
+
+    .carousel-slide {
+        position: relative;
+        opacity: 1;
+        /* visível, o container será deslocado por scroll */
+        min-width: 100%;
+        box-sizing: border-box;
+        padding: 20px;
+    }
+
     .carousel-slide p {
         font-size: 1rem;
         max-width: 90%;
     }
 
+    /* Make mobile arrows more visible and tappable */
     .carousel-btn {
-        padding: 6px 10px;
-        font-size: 1.1rem;
+        padding: 0;
+        width: 44px;
+        height: 44px;
+        font-size: 1.6rem;
+        border-radius: 50%;
+        background: rgba(0,0,0,0.65);
+        color: #fff;
+        border: none;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+        z-index: 9999;
+        display: block;
+        align-items: center;
+        justify-content: center;
+        display: flex;
     }
 
     .carousel-btn.prev {
-        left: 8px;
+        left: 12px;
     }
 
     .carousel-btn.next {
-        right: 8px;
+        right: 12px;
     }
 
     .carousel-dots {
@@ -913,11 +1264,12 @@ main {
     }
 
     main {
-        padding: 70px 5px 15px 5px;
+        padding: 70px 15px 15px 15px;
     }
 
     .browser-window {
-        height: 400px;
+        /* altura menor em smartphones para manter proporção */
+        height: 300px;
         border: 1px outset #ccc;
     }
 
@@ -961,6 +1313,20 @@ main {
         padding: 10px;
     }
 
+    /* Aumenta o card no smartphone para ficar semelhante ao desktop */
+    .carousel-container {
+        padding: 0 12px;
+    }
+
+    .carousel-slide img {
+        width: auto;
+        max-width: 86%;
+        max-height: 220px;
+        object-fit: cover;
+        display: block;
+        margin: 0 auto;
+    }
+
     .carousel-slide h3 {
         font-size: 1.3rem;
         margin-bottom: 8px;
@@ -973,9 +1339,15 @@ main {
     }
 
     .carousel-btn {
-        padding: 5px 8px;
-        font-size: 1rem;
-        border: 1px outset #fff;
+        padding: 0;
+        width: 40px;
+        height: 40px;
+        font-size: 1.25rem;
+        border-radius: 50%;
+        background: rgba(0,0,0,0.65);
+        color: #fff;
+        border: none;
+        box-shadow: 0 6px 12px rgba(0,0,0,0.3);
     }
 
     .carousel-btn.prev {
@@ -1133,21 +1505,186 @@ main {
 }
 
 /* Modo paisagem em smartphones */
-@media (max-height: 500px) and (orientation: landscape) {
-    .viewport-inicial {
-        height: auto;
-        min-height: 100vh;
-    }
-
-    main {
-        padding: 80px 10px 20px 10px;
-    }
-
-    .browser-window {
-        height: 350px;
-    }
-
+@media (max-width: 768px) {
     .logo-container {
-        display: none;
+        display: flex;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+
+    .logo-container img {
+        width: 150px;
+        height: auto;
+    }
+
+    .browser-container {
+        margin-top: 2rem;
     }
 }
+
+@media (max-width: 480px) {
+    .logo-container img {
+        width: 120px;
+    }
+
+    .browser-container {
+        transform: scale(0.9);
+    }
+}
+
+
+.menu-toggle {
+    display: none;
+    cursor: pointer;
+    font-size: 2rem;
+    color: #fff;
+    padding: 10px 20px;
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    header nav ul {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        background: rgba(15, 23, 42, 0.95);
+        position: absolute;
+        top: 60px;
+        width: 100%;
+        left: 0;
+        padding: 20px 0;
+        gap: 25px;
+    }
+
+    header nav ul.show {
+        display: flex;
+        z-index: 9999;
+        /* garante que o menu fique acima de outros elementos */
+    }
+}
+
+/* Garantia extra de que o menu/mobile esteja clicável e em topo */
+.menu-toggle {
+    z-index: 10001;
+}
+
+header nav ul {
+    /* quando exibido como overlay, precisa captar cliques */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.2);
+}
+
+header nav ul a {
+    pointer-events: auto;
+}
+
+@media (max-width: 480px) {
+    section {
+        scroll-margin-top: 80px;
+    }
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ================= Testemunhos / Depoimentos (carrossel) ================= */
+.testimonials-section {
+    padding-top: 40px;
+    padding-bottom: 60px;
+}
+
+.testimonials-carousel {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.testimonials-track {
+    position: relative;
+    overflow: hidden;
+}
+
+.testi-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+    padding: 24px 30px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.testi-slide.active {
+    opacity: 1;
+    position: relative;
+}
+
+.testi-slide blockquote {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 22px 26px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 900px;
+}
+
+.testi-slide blockquote footer {
+    margin-top: 12px;
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.8);
+    text-align: right;
+}
+
+.testi-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #c0c0c0;
+    color: #000;
+    border: 2px outset #fff;
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
+    cursor: pointer;
+    z-index: 30;
+}
+
+.testi-btn.prev { left: 6px; }
+.testi-btn.next { right: 6px; }
+
+.testi-dots {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 18px;
+}
+
+.testi-dots .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #c0c0c0;
+    border: 2px outset #fff;
+    cursor: pointer;
+}
+
+.testi-dots .dot.active {
+    background: #000080;
+    border: 2px inset #808080;
+}
+
+@media (max-width: 768px) {
+    .testi-slide blockquote { font-size: 1rem; padding: 18px; }
+    .testi-btn { width: 36px; height: 36px; }
+}
+
+/* Fallback: se preferir layout horizontal em mobile pode-se adaptar depois */

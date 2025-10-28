@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NTG Produções</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,23 +13,32 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
     <div class="background-canvas"></div>
 
     <div class="main-content">
 
-        <div class="viewport-inicial">
+        <div id="inicio" class="viewport-inicial">
             <header>
                 <nav>
-                    <ul>
-                        <li><a href="#">Início</a></li>
-                        <li><a href="#quem-somos">Quem somos</a></li>
-                        <li><a href="#nossa-equipe">Carômetro</a></li>
+                    <div class="menu-toggle" id="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <ul id="nav-links">
+                        <li><a href="#inicio">Início</a></li>
+                        <li><a href="#projetos">Projetos</a></li>
+                        <li><a href="#sobre">Sobre</a></li>
+                        <li><a href="#nossa-equipe">Nossa Equipe</a></li>
+                        <li><a href="#referencias">Referências</a></li>
+                        <li><a href="#depoimentos">Depoimentos</a></li>
+                        <li><a href="#agradecimentos">Agradecimentos</a></li>
                         <li><a href="#contato">Contato</a></li>
                     </ul>
                 </nav>
             </header>
+
             <main>
                 <div class="logo-container">
                     <img id="logo" src="assets/img/logo.png" alt="Logo da NTG Produções">
@@ -37,11 +47,8 @@
                     <a href="https://www.instagram.com/ntg_prod"><i class="fab fa-instagram"></i></a>
                     <a href="https://www.youtube.com/@ntg_produções"><i class="fab fa-youtube"></i></a>
                 </div>
-                
-                <div class="browser-container">
-                    <div class="star star1">✦</div>
-                    <div class="star star2">✦</div>
-                    <div class="star star3">✦</div>
+
+                <div id="projetos" class="browser-container">
                     <div class="browser-window">
                         <div class="browser-header">
                             <span>WEB BROWSER</span>
@@ -51,105 +58,451 @@
                                 <div class="button close"></div>
                             </div>
                         </div>
+
                         <div class="address-bar">
-                            <div class="nav-icons">
-                                <span>&#9664;</span>
-                                <span>&#9654;</span>
-                                <span>&#8962;</span>
-                            </div>
-                            <div class="url-field">http://</div>
-                            <div class="fav-icon">★</div>
+                            <span class="nav-icons"><span>◀</span><span>▶</span></span>
+                            <div class="url-field">http://ntgproducoes.com/projetos</div>
                         </div>
-                        <div id="browser-content" class="browser-content">
+
+                        <div class="browser-content">
                             <div class="carousel-container">
-                                <button class="carousel-btn prev" aria-label="Anterior">&#10094;</button>
                                 <div class="carousel-slides">
                                     <div class="carousel-slide active">
-                                        <h3>Projeto 1</h3>
-                                        <p>Descrição do primeiro projeto audiovisual da NTG Produções.</p>
+                                        <a class="podcast-link"
+                                            href="https://drive.google.com/file/d/1xsmdgmL3_Gf5mW2aKJwKqQtaGkRCUbMP/view?usp=sharing"
+                                            target="_blank" rel="noopener noreferrer">
+
+                                            <img src="./assets/img/Podcast.jpeg" alt="Podcast NTG Produções">
+                                        </a>
+                                    </div>
+
+                                    <div class="carousel-slide">
+                                        <h3>Relato Teorias da Comunicação - Pedro Barbosa</h3>
+                                        <!-- Responsively-wrapped YouTube embed: removes fixed width/height attributes -->
+                                        <!-- Marquei como 'vertical' para que o iframe fique no formato portrait (Shorts) -->
+                                        <div class="project-media vertical">
+                                            <!-- Placeholder: iframe será criado dinamicamente pelo JS quando o slide for ativo
+                                                 Isso ajuda a detectar falhas de embed no desktop e evita carregamento desnecessário -->
+                                            <div class="embed-placeholder"
+                                                data-src="https://www.youtube.com/embed/LhxnRCauKcA"
+                                                aria-label="player placeholder">
+                                                <button class="open-youtube" style="display:none">Abrir no
+                                                    YouTube</button>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="carousel-slide">
-                                        <h3>Projeto 2</h3>
-                                        <p>Descrição do segundo projeto audiovisual da NTG Produções.</p>
+                                        <h3>Relato Teorias da Comunicação - Felipe Rozendo</h3>
+                                        <!-- Responsively-wrapped YouTube embed: removes fixed width/height attributes -->
+                                        <!-- Marquei como 'vertical' para que o iframe fique no formato portrait (Shorts) -->
+                                        <div class="project-media vertical">
+                                            <!-- Placeholder: iframe será criado dinamicamente pelo JS quando o slide for ativo
+                                                 Isso ajuda a detectar falhas de embed no desktop e evita carregamento desnecessário -->
+                                            <div class="embed-placeholder"
+                                                data-src="https://www.youtube.com/shorts/mfpcW8nwXyA"
+                                                aria-label="player placeholder">
+                                                <button class="open-youtube" style="display:none">Abrir no
+                                                    YouTube</button>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="carousel-slide">
-                                        <h3>Projeto 3</h3>
-                                        <p>Descrição do terceiro projeto audiovisual da NTG Produções.</p>
+                                        <h3>Relato Teorias da Comunicação - Gustavo Casseta</h3>
+                                        <!-- Responsively-wrapped YouTube embed: removes fixed width/height attributes -->
+                                        <!-- Marquei como 'vertical' para que o iframe fique no formato portrait (Shorts) -->
+                                        <div class="project-media vertical">
+                                            <!-- Placeholder: iframe será criado dinamicamente pelo JS quando o slide for ativo
+                                                 Isso ajuda a detectar falhas de embed no desktop e evita carregamento desnecessário -->
+                                            <div class="embed-placeholder"
+                                                data-src="https://www.youtube.com/shorts/a2RvsPDpEY8"
+                                                aria-label="player placeholder">
+                                                <button class="open-youtube" style="display:none">Abrir no
+                                                    YouTube</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="carousel-slide">
+                                        <h3>Relato Teorias da Comunicação - João Pizarro</h3>
+                                        <!-- Responsively-wrapped YouTube embed: removes fixed width/height attributes -->
+                                        <!-- Marquei como 'vertical' para que o iframe fique no formato portrait (Shorts) -->
+                                        <div class="project-media vertical">
+                                            <!-- Placeholder: iframe será criado dinamicamente pelo JS quando o slide for ativo
+                                                 Isso ajuda a detectar falhas de embed no desktop e evita carregamento desnecessário -->
+                                            <div class="embed-placeholder"
+                                                data-src="https://www.youtube.com/shorts/CYFNnPFcDYg"
+                                                aria-label="player placeholder">
+                                                <button class="open-youtube" style="display:none">Abrir no
+                                                    YouTube</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="carousel-slide">
+                                        <h3>Relato Teorias da Comunicação - Gustavo Reis</h3>
+                                        <!-- Responsively-wrapped YouTube embed: removes fixed width/height attributes -->
+                                        <!-- Marquei como 'vertical' para que o iframe fique no formato portrait (Shorts) -->
+                                        <div class="project-media vertical">
+                                            <!-- Placeholder: iframe será criado dinamicamente pelo JS quando o slide for ativo
+                                                 Isso ajuda a detectar falhas de embed no desktop e evita carregamento desnecessário -->
+                                            <div class="embed-placeholder"
+                                                data-src="https://www.youtube.com/shorts/BTZOvoX5cEg"
+                                                aria-label="player placeholder">
+                                                <button class="open-youtube" style="display:none">Abrir no
+                                                    YouTube</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="carousel-slide">
+                                        <h3>Relato Teorias da Comunicação - Cláudio Lourenço</h3>
+                                        <!-- Responsively-wrapped YouTube embed: removes fixed width/height attributes -->
+                                        <!-- Marquei como 'vertical' para que o iframe fique no formato portrait (Shorts) -->
+                                        <div class="project-media vertical">
+                                            <!-- Placeholder: iframe será criado dinamicamente pelo JS quando o slide for ativo
+                                                 Isso ajuda a detectar falhas de embed no desktop e evita carregamento desnecessário -->
+                                            <div class="embed-placeholder"
+                                                data-src="https://www.youtube.com/shorts/kY-youzJLMA"
+                                                aria-label="player placeholder">
+                                                <button class="open-youtube" style="display:none">Abrir no
+                                                    YouTube</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="carousel-slide">
+                                        <h3>Relato Teorias da Comunicação - Isabelle Leal</h3>
+                                        <!-- Responsively-wrapped YouTube embed: removes fixed width/height attributes -->
+                                        <!-- Marquei como 'vertical' para que o iframe fique no formato portrait (Shorts) -->
+                                        <div class="project-media vertical">
+                                            <!-- Placeholder: iframe será criado dinamicamente pelo JS quando o slide for ativo
+                                                 Isso ajuda a detectar falhas de embed no desktop e evita carregamento desnecessário -->
+                                            <div class="embed-placeholder"
+                                                data-src="https://www.youtube.com/shorts/0_nsCynJI6w"
+                                                aria-label="player placeholder">
+                                                <button class="open-youtube" style="display:none">Abrir no
+                                                    YouTube</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="carousel-slide">
+                                        <h3>Relato Teorias da Comunicação - Kalil Rodrigues</h3>
+                                        <!-- Responsively-wrapped YouTube embed: removes fixed width/height attributes -->
+                                        <!-- Marquei como 'vertical' para que o iframe fique no formato portrait (Shorts) -->
+                                        <div class="project-media vertical">
+                                            <!-- Placeholder: iframe será criado dinamicamente pelo JS quando o slide for ativo
+                                                 Isso ajuda a detectar falhas de embed no desktop e evita carregamento desnecessário -->
+                                            <div class="embed-placeholder"
+                                                data-src="https://www.youtube.com/shorts/ODATlcR4uAA"
+                                                aria-label="player placeholder">
+                                                <button class="open-youtube" style="display:none">Abrir no
+                                                    YouTube</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="carousel-slide">
+                                        <h3>Relato Teorias da Comunicação - Bruno Gonçalves</h3>
+                                        <!-- Responsively-wrapped YouTube embed: removes fixed width/height attributes -->
+                                        <!-- Marquei como 'vertical' para que o iframe fique no formato portrait (Shorts) -->
+                                        <div class="project-media vertical">
+                                            <!-- Placeholder: iframe será criado dinamicamente pelo JS quando o slide for ativo
+                                                 Isso ajuda a detectar falhas de embed no desktop e evita carregamento desnecessário -->
+                                            <div class="embed-placeholder"
+                                                data-src="https://www.youtube.com/shorts/Y8QOWy7HIQ8"
+                                                aria-label="player placeholder">
+                                                <button class="open-youtube" style="display:none">Abrir no
+                                                    YouTube</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <button class="carousel-btn next" aria-label="Próximo">&#10095;</button>
-                                <div class="carousel-dots">
-                                    <span class="dot active" data-slide="0"></span>
-                                    <span class="dot" data-slide="1"></span>
-                                    <span class="dot" data-slide="2"></span>
-                                </div>
+
+                                <button class="carousel-btn prev">‹</button>
+                                <button class="carousel-btn next">›</button>
+
+                                <div class="carousel-dots"></div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </main>
         </div>
 
-       <section id="quem-somos" class="content-section">
+        <section id="sobre" class="content-section">
             <h2>QUEM SOMOS</h2>
-            <p class="section-intro">A NTG Produções nasceu da vontade de 12 jovens estudantes de Rádio, TV e Internet de se expressar de forma genuína pelo audiovisual, sem medo de julgamentos.</p>
-            
+            <p class="section-intro">A NTG Produções nasceu da vontade de 12 jovens estudantes de Rádio, TV e Internet
+                de se expressar de forma genuína pelo audiovisual, sem medo de julgamentos, o foco da produtora é
+                produzir conteúdos audiovisuais focados em nostalgia, variando de podcasts, programas de rádio e tv,
+                clipes musicais e vídeos para a internet.</p>
+
             <div class="missao-valores-container">
                 <div class="mvv-card">
                     <h3>Nossa Missão</h3>
-                    <p>Produzir conteúdo audiovisual de alta qualidade, criando experiências emocionantes e memoráveis para o público, mostrando nossos ideais e conceitos de maneira genuína e "sem filtros", a fim de alcançar maior autenticidade.</p>
+                    <p>Produzir conteúdo audiovisual de alta qualidade, criando experiências emocionantes e memoráveis
+                        para o público, mostrando nossos ideais e conceitos de maneira genuína e "sem filtros", a fim de
+                        alcançar maior autenticidade.</p>
                 </div>
                 <div class="mvv-card">
                     <h3>Nossa Visão</h3>
-                    <p>Ser uma das principais produtoras do cenário brasileiro a inovar e trazer reconhecimento com sua criatividade, inovação e sinceridade de conteúdo audiovisual diverso.</p>
+                    <p>Ser uma das principais produtoras do cenário brasileiro a inovar e trazer reconhecimento com sua
+                        criatividade, inovação e sinceridade de conteúdo audiovisual diverso.</p>
                 </div>
                 <div class="mvv-card">
                     <h3>Nossos Valores</h3>
                     <ul>
-                        <li><strong>Criatividade:</strong> Buscamos referências que tocam no íntimo de nossos integrantes.</li>
-                        <li><strong>Colaboração:</strong> Sempre buscamos trabalhar em conjunto e trazer a melhor harmonia entre nossas ideias.</li>
-                        <li><strong>Transparência:</strong> Colocamos nosso conteúdo como transparente, autêntico e sincero.</li>
+                        <li><strong>Criatividade:</strong> Buscamos referências que tocam no íntimo de nossos
+                            integrantes.</li>
+                        <li><strong>Colaboração:</strong> Sempre buscamos trabalhar em conjunto e trazer a melhor
+                            harmonia entre nossas ideias.</li>
+                        <li><strong>Transparência:</strong> Colocamos nosso conteúdo como transparente, autêntico e
+                            sincero.</li>
                     </ul>
                 </div>
             </div>
 
-                <div id="nossa-equipe" class="nossa-equipe">
-                    <h3>Nossa Equipe</h3>
-                    <div class="equipe-grid">
-                        <div class="membro-card"><div class="foto-placeholder"><img src="./Carometro/GustavoR.JPG" alt="Foto"></div><h4>Gustavo Reis</h4><p>Diretor Geral</p><p class="redes-sociais"><a href="https://www.instagram.com/olvrise"><i class="fab fa-instagram"></i></a></p></div>
-                        <div class="membro-card"><div class="foto-placeholder"><img src="" alt=""></div><h4>Gustavo Casseta</h4><p>Roteirista</p><p class="redes-sociais"><a href="https://www.instagram.com/gcass_"><i class="fab fa-instagram"></i></a></p></div>
-                        <div class="membro-card"><div class="foto-placeholder"><img src="./Carometro/João.jpg" alt=""></div><h4>João Pizarro</h4><p>Design de Som e Áudio</p><p class="redes-sociais"><a href="https://www.instagram.com/xmalditaxtristezax"><i class="fab fa-instagram"></i></a></p></div>
-                        <div class="membro-card"><div class="foto-placeholder"><img src="" alt=""></div><h4>Pedro Barbosa</h4><p>Diretor de Fotografia</p><p class="redes-sociais"><a href="https://www.instagram.com/pedraoapedra"><i class="fab fa-instagram"></i></a></p></div>
-                        <div class="membro-card"><div class="foto-placeholder"><img src="./Carometro/Isabelle.jpg" alt=""></div><h4>Isabelle Leal</h4><p>Auxiliar de Fotografia</p><p class="redes-sociais"><a href="https://www.instagram.com/belle_brito.ilb"><i class="fab fa-instagram"></i></a></p></div>
-                        <div class="membro-card"><div class="foto-placeholder"><img src="./Carometro/Claudio.jpg" alt=""></div><h4>Cláudio Lourenço</h4><p>Elenco/Casting</p><p class="redes-sociais"><a href="https://www.instagram.com/casalviolli"><i class="fab fa-instagram"></i></a></p></div>                        
-                        <div class="membro-card"><div class="foto-placeholder"></div><h4>Kaue Oliveira</h4><p>Editor</p><p class="redes-sociais"><a href="https://www.instagram.com/kaueomaischave"><i class="fab fa-instagram"></i></a></p></div>
-                        <div class="membro-card"><div class="foto-placeholder"><img src="./Carometro/Kalil.jpg" alt=""></div><h4>Kalil Ali</h4><p>Social Mídia</p><p class="redes-sociais"><a href="https://www.instagram.com/kali_redrum"><i class="fab fa-instagram"></i></a></p></div>
-                        <div class="membro-card"><div class="foto-placeholder"><img src="./Carometro/Bruno.jpg" alt=""></div><h4>Bruno Gonçalves</h4><p>Cinegrafista</p><p class="redes-sociais"><a href="https://www.instagram.com/brunoogdj"><i class="fab fa-instagram"></i></a></p></div>                        
-                        <div class="membro-card"><div class="foto-placeholder"><img src="" alt=""></div><h4>Maria Helena</h4><p>Produtor Executivo</p><p class="redes-sociais"><a href="https://www.instagram.com/mapiana___"><i class="fab fa-instagram"></i></a></p></div>
+            <div id="nossa-equipe" class="nossa-equipe">
+                <h3>Nossa Equipe</h3>
+                <div class="equipe-grid">
+                    <div class="membro-card">
+                        <div class="foto-placeholder"><img src="./Carometro/GustavoR.JPG" alt="Foto"></div>
+                        <h4>Gustavo Reis</h4>
+                        <p>Diretor Geral</p>
+                        <p class="rgm">RGM: 44051867</p>
+                        <p class="redes-sociais"><a href="https://www.instagram.com/olvrise"><i
+                                    class="fab fa-instagram"></i></a></p>
+                    </div>
+                    <div class="membro-card">
+                        <div class="foto-placeholder"><img src="./Carometro/Cass.jpg" alt=""></div>
+                        <h4>Gustavo Casseta</h4>
+                        <p>Roteirista</p>
+                        <p class="rgm">RGM: 41879015</p>
+                        <p class="redes-sociais"><a href="https://www.instagram.com/gcass_"><i
+                                    class="fab fa-instagram"></i></a></p>
+                    </div>
+                    <div class="membro-card">
+                        <div class="foto-placeholder"><img src="./Carometro/João.jpg" alt=""></div>
+                        <h4>João Pizarro</h4>
+                        <p>Design de Som e Áudio</p>
+                        <p class="rgm">RGM: 43041230</p>
+                        <p class="redes-sociais"><a href="https://www.instagram.com/xmalditaxtristezax"><i
+                                    class="fab fa-instagram"></i></a></p>
+                    </div>
+                    <div class="membro-card">
+                        <div class="foto-placeholder"><img src="./Carometro/Pedro.jpg" alt=""></div>
+                        <h4>Pedro Barbosa</h4>
+                        <p>Diretor de Fotografia</p>
+                        <p class="rgm">RGM: 42201080</p>
+                        <p class="redes-sociais"><a href="https://www.instagram.com/pedraoapedra"><i
+                                    class="fab fa-instagram"></i></a></p>
+                    </div>
+                    <div class="membro-card">
+                        <div class="foto-placeholder"><img src="./Carometro/Isabelle.jpg" alt=""></div>
+                        <h4>Isabelle Leal</h4>
+                        <p>Auxiliar de Fotografia</p>
+                        <p class="rgm">RGM: 43306454</p>
+                        <p class="redes-sociais"><a href="https://www.instagram.com/belle_brito.ilb"><i
+                                    class="fab fa-instagram"></i></a></p>
+                    </div>
+                    <div class="membro-card">
+                        <div class="foto-placeholder"><img src="./Carometro/Claudio.jpg" alt=""></div>
+                        <h4>Cláudio Lourenço</h4>
+                        <p>Elenco/Casting</p>
+                        <p class="rgm">RGM: 43693385</p>
+                        <p class="redes-sociais"><a href="https://www.instagram.com/casalviolli"><i
+                                    class="fab fa-instagram"></i></a></p>
+                    </div>
+                    <div class="membro-card">
+                        <div class="foto-placeholder"><img src="./Carometro/Kaue.jpeg" alt=""></div>
+                        <h4>Kaue Oliveira</h4>
+                        <p>Editor</p>
+                        <p class="rgm">RGM: 43542841</p>
+                        <p class="redes-sociais"><a href="https://www.instagram.com/kaueomaischave"><i
+                                    class="fab fa-instagram"></i></a></p>
+                    </div>
+                    <div class="membro-card">
+                        <div class="foto-placeholder"><img src="./Carometro/Kalil.jpg" alt=""></div>
+                        <h4>Kalil Ali</h4>
+                        <p>Social Mídia</p>
+                        <p class="rgm">RGM: 642730805</p>
+                        <p class="redes-sociais"><a href="https://www.instagram.com/kali_redrum"><i
+                                    class="fab fa-instagram"></i></a></p>
+                    </div>
+                    <div class="membro-card">
+                        <div class="foto-placeholder"><img src="./Carometro/Bruno.jpg" alt=""></div>
+                        <h4>Bruno Gonçalves</h4>
+                        <p>Cinegrafista</p>
+                        <p class="rgm">RGM: 642621828</p>
+                        <p class="redes-sociais"><a href="https://www.instagram.com/brunoogdj"><i
+                                    class="fab fa-instagram"></i></a></p>
+                    </div>
+                    <div class="membro-card">
+                        <div class="foto-placeholder"><img src="./Carometro/Maria.jpg" alt=""></div>
+                        <h4>Maria Helena</h4>
+                        <p>Produtor Executivo</p>
+                        <p class="rgm">RGM: 644426011</p>
+                        <p class="redes-sociais"><a href="https://www.instagram.com/mapiana___"><i
+                                    class="fab fa-instagram"></i></a></p>
+                    </div>
+                    <div class="membro-card">
+                        <div class="foto-placeholder"><img src="./Carometro/Felipe.jpg" alt=""></div>
+                        <h4>Felipe Rozendo</h4>
+                        <p>Auxiliar de Produção</p>
+                        <p class="rgm">RGM: 43512861</p>
+                        <p class="redes-sociais"><a href="https://www.instagram.com/feli_perozendo"><i
+                                    class="fab fa-instagram"></i></a></p>
                     </div>
                 </div>
             </div>
-        </section>
+    </div>
+    </section>
 
-        <section id="contato" class="content-section">
-            <h2>CONTATO</h2>
-            <p class="section-intro">Curtiu nosso trampo? Quer trocar uma ideia, propor uma parceria ou só mandar um salve? Chega junto!</p>
-            <div class="contato-links">
-                <a href="https://www.instagram.com/ntg_prod" class="social-link">
-                    <i class="fab fa-instagram"></i> Instagram</a>
-                <a href="https://www.youtube.com/@ntg_produções" class="social-link">
-                    <i class="fab fa-youtube"></i> YouTube
-                </a>
-                <a href="mailto:ntgprod.contato@gmail.com?subject=Contato%20NTG%20Produções&body=Ola%20NTG%20Prod,%0A%0estou%20entrando%20entrando%20em%20contato%20contato%20para%20saber%20sobre%20valores..." class="social-link">
-                    <i class="fas fa-envelope"></i> Email
-                </a>
-                <a href="https://wa.me/+5511978582770" class="social-link">
-                    <i class="fab fa-whatsapp"></i> WhatsApp
-                </a>
+    <section id="referencias" class="content-section">
+        <h2>Referências</h2>
+        <div class="section-intro">
+            <p>
+                Nossas referências para a criação do conteúdo e identidade visual da NTG Produções incluem: MTV, CQC,
+                Pânico na TV e Kpunk, nossas referências nos trouxeram presonalidade e nos moldaram para nossa criação!
+            </p>
+        </div>
+
+    </section>
+
+    <section id="depoimentos" class="content-section testimonials-section">
+        <h2>Depoimentos da Equipe</h2>
+        <p class="section-intro">Comentários e impressões da equipe sobre o projeto</p>
+
+        <div class="testimonials-carousel">
+            <div class="testimonials-track">
+                <div class="testi-slide active">
+                    <blockquote>
+                        <p>Gostei muito de fazer a locução desse projeto. A dinâmica e conversa que tivemos foi muito
+                            divertida e interessante. Poder sentir na pele a experiência de ser uma voz dentro do
+                            estúdio me fez crescer como estudante!</p>
+                        <footer>— Isabelle</footer>
+                    </blockquote>
+                </div>
+
+                <div class="testi-slide">
+                    <blockquote>
+                        <p>O projeto em si é um sucesso. Não pela funcionalidade apenas, mas pela identidade criada e a
+                            dedicação e carinho da equipe para com. Agradeço imensamente a NTG e parabéns pelo
+                            profissionalismo de todos!</p>
+                        <footer>— Pedro</footer>
+                    </blockquote>
+                </div>
+
+                <div class="testi-slide">
+                    <blockquote>
+                        <p>Eu gostei bastante desse projeto, por ser algo mais descontraído e livre no formato podcast,
+                            e por ter ficado na parte dos bastidores, com Direção e produção, pude aprender e admirar
+                            ainda mais o talento da galera da NTG!</p>
+                        <footer>— Bruno</footer>
+                    </blockquote>
+                </div>
+
+                <div class="testi-slide">
+                    <blockquote>
+                        <p>Participar desse projeto foi uma experiência incrível. Ver cada ideia tomando forma e
+                            ganhando vida com tanta criatividade me fez ter ainda mais orgulho do trabalho em equipe.
+                            Agradeço à NTG por proporcionar um ambiente tão inspirador!</p>
+                        <footer>— Maria</footer>
+                    </blockquote>
+                </div>
+
+                <div class="testi-slide">
+                    <blockquote>
+                        <p>Esse projeto foi, sem dúvida, um dos mais gratificantes que já fiz parte. A liberdade
+                            criativa e o apoio da equipe tornaram o processo leve e divertido. Parabéns à NTG pela
+                            entrega impecável e pela parceria em cada etapa!</p>
+                        <footer>— Gustavo Reis</footer>
+                    </blockquote>
+                </div>
+
+                <div class="testi-slide">
+                    <blockquote>
+                        <p>Mais do que um simples projeto, isso foi um aprendizado coletivo. A troca entre todos os
+                            envolvidos e o cuidado com cada detalhe mostraram o quanto a NTG valoriza qualidade e
+                            colaboração. Foi um prazer fazer parte!</p>
+                        <footer>— Gustavo Casseta</footer>
+                    </blockquote>
+                </div>
+
+                <div class="testi-slide">
+                    <blockquote>
+                        <p>O resultado final fala por si só, mas o que mais marcou foi o caminho até aqui. A dedicação
+                            da equipe e o comprometimento da NTG transformaram um desafio em uma verdadeira realização
+                            profissional!</p>
+                        <footer>— Kalil</footer>
+                    </blockquote>
+                </div>
+
+                <div class="testi-slide">
+                    <blockquote>
+                        <p>Foi um projeto especial, cheio de momentos de criação, testes e boas risadas. Estar nos
+                            bastidores e ver tudo acontecendo me fez valorizar ainda mais o talento e o esforço de cada
+                            integrante da NTG.</p>
+                        <footer>— João</footer>
+                    </blockquote>
+                </div>
+
+                <div class="testi-slide">
+                    <blockquote>
+                        <p>Trabalhar nesse projeto foi uma mistura de aprendizado e paixão. Desde o planejamento até a
+                            finalização, cada fase contou com o toque humano e profissional da NTG. Orgulho de ter
+                            contribuído com essa equipe!</p>
+                        <footer>— Cláudio</footer>
+                    </blockquote>
+                </div>
+
+                <div class="testi-slide">
+                    <blockquote>
+                        <p>Equipe NTG — O projeto foi muito mais do que uma entrega técnica — foi uma construção
+                            coletiva feita de ideias, esforço e paixão. Cada integrante colocou um pouco de si em cada
+                            detalhe, tornando o resultado final um reflexo da nossa união e criatividade. Agradecemos a
+                            todos que fizeram parte desse processo e acreditaram na proposta.</p>
+                        <footer>— Equipe NTG</footer>
+                    </blockquote>
+                </div>
             </div>
-        </section>
 
-    </div> <script src="assets/js/scripts"></script>
+            <button class="testi-btn prev">‹</button>
+            <button class="testi-btn next">›</button>
+            <div class="testi-dots"></div>
+        </div>
+    </section>
+
+    <section id="agradecimentos" class="content-section">
+        <h2>Agradecimentos</h2>
+        <h3 class="section-intro">Universidade Cruzeiro do Sul - 2025</h3>
+        <div class="section-intro">
+            <p>Coordenador - Vagner Novaes</p>
+            <p>Professora - Viviane Mendes</p>
+            <p>Professora - Patrícia Assuf</p>
+            <p>Professora - Rosângela Paulino</p>
+        </div>
+
+    </section>
+
+    <section id="contato" class="content-section">
+        <h2>CONTATO</h2>
+        <p class="section-intro">Curtiu nosso trampo? Quer trocar uma ideia, propor uma parceria ou só mandar um salve?
+            Chega junto!</p>
+        <div class="contato-links">
+            <a href="https://www.instagram.com/ntg_prod" class="social-link">
+                <i class="fab fa-instagram"></i> Instagram</a>
+            <a href="https://www.youtube.com/@ntg_produções" class="social-link">
+                <i class="fab fa-youtube"></i> YouTube
+            </a>
+            <a href="mailto:ntgprod.contato@gmail.com?subject=Contato%20NTG%20Produções&body=Ola%20NTG%20Prod,%0A%0estou%20entrando%20entrando%20em%20contato%20contato%20para%20saber%20sobre%20valores..."
+                class="social-link">
+                <i class="fas fa-envelope"></i> Email
+            </a>
+            <a href="https://wa.me/+5511978582770" class="social-link">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+            </a>
+        </div>
+    </section>
+
+    </div>
+    <script src="js/script.js"></script>
 
 </body>
+
 </html>
