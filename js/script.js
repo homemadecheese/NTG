@@ -360,6 +360,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const dotsContainer = document.querySelector('.testi-dots');
         const prev = document.querySelector('.testi-btn.prev');
         const next = document.querySelector('.testi-btn.next');
+        const track = document.querySelector('.testimonials-track');
         if (!testiSlides.length || !dotsContainer) return; // nada a fazer
 
         let current = testiSlides.findIndex(s => s.classList.contains('active'));
@@ -385,6 +386,12 @@ document.addEventListener('DOMContentLoaded', () => {
             testiDots.forEach(d => d.classList.remove('active'));
             if (testiDots[index]) testiDots[index].classList.add('active');
             current = index;
+            // se mobile, fazemos scroll horizontal no track
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile && track) {
+                const slideWidth = track.clientWidth;
+                track.scrollTo({ left: index * slideWidth, behavior: 'smooth' });
+            }
         }
 
         function nextTesti() { show(current + 1); }
@@ -410,11 +417,30 @@ document.addEventListener('DOMContentLoaded', () => {
             // toque simples: pausa curto
             carouselEl.addEventListener('touchstart', () => clearInterval(autoplay), { passive: true });
             carouselEl.addEventListener('touchend', () => { resetAuto(); }, { passive: true });
+            // swipe dentro do track para navegar
+            let tStartX = 0, tEndX = 0, tStartY = 0, tEndY = 0;
+            carouselEl.addEventListener('touchstart', (e) => {
+                tStartX = e.changedTouches[0].screenX;
+                tStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
+
+            carouselEl.addEventListener('touchend', (e) => {
+                tEndX = e.changedTouches[0].screenX;
+                tEndY = e.changedTouches[0].screenY;
+                const dx = tEndX - tStartX;
+                const dy = Math.abs(tEndY - tStartY);
+                if (Math.abs(dx) > 40 && dy < 80) {
+                    if (dx > 0) prevTesti(); else nextTesti();
+                    resetAuto();
+                }
+            }, { passive: true });
         }
 
     })();
 
 });
+
+
 
 // Corrige layout quando a orientação do dispositivo muda
 window.addEventListener('orientationchange', function () {
