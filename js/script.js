@@ -41,28 +41,34 @@ document.addEventListener('DOMContentLoaded', () => {
             currentSlide = index;
         }
 
-    dots.forEach(dot => dot.classList.remove('active'));
-    if (dots[currentSlide]) dots[currentSlide].classList.add('active');
+        dots.forEach(dot => dot.classList.remove('active'));
+        if (dots[currentSlide]) dots[currentSlide].classList.add('active');
 
         /* Se o container estiver em layout horizontal (mobile), fazemos o scroll para o slide */
         const style = carouselContainer ? getComputedStyle(carouselContainer) : null;
-        const isHorizontal = style && style.display === 'flex';
+        const isMobile = window.innerWidth <= 768;
 
-        if (isHorizontal && carouselContainer) {
-            // garante que cada slide ocupe 100% da largura do container
+        if (isMobile && carouselContainer) {
+            // Layout horizontal para mobile - scroll suave
             const slideWidth = carouselContainer.clientWidth;
-            carouselContainer.scrollTo({ left: currentSlide * slideWidth, behavior: 'smooth' });
-            // marca slides (opcional) para estilos visuais
+            carouselContainer.scrollTo({
+                left: currentSlide * slideWidth,
+                behavior: 'smooth'
+            });
+
+            // Marca slide ativo visualmente
             slides.forEach((s, i) => s.classList.toggle('active', i === currentSlide));
-            // quando em layout horizontal, também injetamos o embed caso exista
-            ensureEmbedForSlide(currentSlide);
+
         } else {
-            // comportamento original (stacked/opacidade)
+            // Comportamento original para desktop
             slides.forEach(slide => slide.classList.remove('active'));
-            slides[currentSlide].classList.add('active');
-            // tentar injetar iframe do slide ativo (lazy-load / diagnóstico)
-            ensureEmbedForSlide(currentSlide);
+            if (slides[currentSlide]) {
+                slides[currentSlide].classList.add('active');
+            }
         }
+
+        // Sempre injeta o embed quando o slide muda
+        ensureEmbedForSlide(currentSlide);
     }
 
     function nextSlide() {
@@ -247,20 +253,56 @@ document.addEventListener('DOMContentLoaded', () => {
         placeholder.dataset.loaded = 'failed';
     }
 
+    // Função para corrigir aspect ratio dos vídeos em tempo real
+    function fixVideoAspectRatio() {
+        const projectMedias = document.querySelectorAll('.project-media');
+
+        projectMedias.forEach(media => {
+            const iframe = media.querySelector('iframe');
+            const video = media.querySelector('video');
+
+            if (iframe) {
+                // Para iframes do YouTube
+                const isMobile = window.innerWidth <= 768;
+                if (isMobile) {
+                    media.classList.remove('vertical');
+                    // Força aspect ratio 16:9 em mobile para todos os vídeos
+                    media.style.aspectRatio = '16/9';
+                }
+            }
+
+            if (video && video.videoWidth && video.videoHeight) {
+                // Para vídeos locais, mantém a detecção de orientação
+                if (video.videoHeight > video.videoWidth) {
+                    media.classList.add('vertical');
+                } else {
+                    media.classList.remove('vertical');
+                }
+            }
+        });
+    }
+
+    // Executa quando a janela é redimensionada
+    window.addEventListener('resize', fixVideoAspectRatio);
+
+    // Executa quando um novo embed é carregado
     function ensureEmbedForSlide(index) {
         const slide = slides[index];
         if (!slide) return;
+
         const placeholder = slide.querySelector('.embed-placeholder');
-        if (!placeholder) return; // nada para fazer
+        if (!placeholder) return;
+
         if (placeholder.dataset.loaded === '1' || placeholder.dataset.loaded === 'failed') return;
+
         let src = placeholder.dataset.src;
         if (!src) return;
-        // Se for um shorts, converte para formato embed
+
+        // Converte shorts para embed
         const shortsMatch = src.match(/youtube\.com\/shorts\/([\w-]+)/);
         if (shortsMatch) {
             src = `https://www.youtube.com/embed/${shortsMatch[1]}`;
         }
-        console.log('Attempting to inject iframe for slide', index, src);
 
         const iframe = document.createElement('iframe');
         iframe.className = 'embed-video';
@@ -271,11 +313,15 @@ document.addEventListener('DOMContentLoaded', () => {
         iframe.referrerPolicy = 'strict-origin-when-cross-origin';
         iframe.allowFullscreen = true;
 
-        // adiciona um timeout para detectar falha (ex.: embed bloqueado por X-Frame-Options)
+        // Força aspect ratio consistente em mobile
+        if (window.innerWidth <= 768) {
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+        }
+
         let loaded = false;
         const loadTimeout = setTimeout(() => {
             if (!loaded) {
-                console.warn('Iframe load timeout for', src);
                 showFallback(placeholder, src);
             }
         }, 6000);
@@ -284,23 +330,24 @@ document.addEventListener('DOMContentLoaded', () => {
             loaded = true;
             clearTimeout(loadTimeout);
             placeholder.dataset.loaded = '1';
-            // remove qualquer botão de fallback se existir
             const btn = placeholder.querySelector('.open-youtube');
             if (btn) btn.style.display = 'none';
-            console.log('Iframe loaded for', src);
+
+            // Aplica correções de aspect ratio após carregar
+            setTimeout(fixVideoAspectRatio, 100);
         });
 
         iframe.addEventListener('error', () => {
             clearTimeout(loadTimeout);
-            console.warn('Iframe error for', src);
             showFallback(placeholder, src);
         });
 
-        // injeta o iframe
         placeholder.innerHTML = '';
         placeholder.appendChild(iframe);
-        // sinaliza que começamos a carregar
         placeholder.dataset.loaded = 'loading';
+
+        // Aplica correções imediatamente
+        fixVideoAspectRatio();
     }
 
     // se a página já tiver um slide ativo que contenha um placeholder, tente injetar (útil em desktop)
@@ -367,4 +414,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     })();
 
+});
+
+// Corrige layout quando a orientação do dispositivo muda
+window.addEventListener('orientationchange', function () {
+    setTimeout(() => {
+        showSlide(currentSlide);
+        fixVideoAspectRatio();
+    }, 300);
 });

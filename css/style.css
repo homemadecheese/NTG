@@ -5,6 +5,55 @@
     box-sizing: border-box;
 }
 
+/* =========================
+   Final mobile override
+   Garante que as setas do carrossel fiquem sempre visíveis e clicáveis em dispositivos móveis.
+   Colocado ao final do arquivo para sobrescrever regras repetidas anteriores.
+   ========================= */
+@media (max-width: 1024px) {
+    .carousel-btn {
+        display: flex !important;
+        /* forçar visibilidade */
+        align-items: center !important;
+        justify-content: center !important;
+        position: absolute !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        width: 44px !important;
+        height: 44px !important;
+        border-radius: 50% !important;
+        background: rgba(0, 0, 0, 0.65) !important;
+        color: #fff !important;
+        border: none !important;
+        font-size: 1.25rem !important;
+        z-index: 99999 !important;
+        /* acima de quase tudo */
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35) !important;
+        cursor: pointer !important;
+        pointer-events: auto !important;
+        -webkit-tap-highlight-color: transparent !important;
+    }
+
+    .carousel-btn.prev {
+        left: 12px !important;
+    }
+
+    .carousel-btn.next {
+        right: 12px !important;
+    }
+
+    /* garante que o link da imagem fique acima de overlays, mas abaixo das setas */
+    .carousel-slide a {
+        z-index: 50 !important;
+        pointer-events: auto !important;
+    }
+
+    /* garante que o container não esconda as setas via overflow */
+    .carousel-container {
+        overflow: visible !important;
+    }
+}
+
 html {
     scroll-behavior: smooth;
     overflow-x: hidden;
@@ -396,7 +445,7 @@ main {
 
 /* Carrossel */
 .carousel-container {
-    position: relative;
+    position: absolute;
     width: 100%;
     height: 100%;
     display: flex;
@@ -411,6 +460,12 @@ main {
         padding: 0 60px;
         /* cria área lateral onde os botões podem ficar sem cobrir a imagem */
         box-sizing: border-box;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .carousel-btn {
@@ -422,8 +477,8 @@ main {
         border-radius: 8px;
         background: #e6e6e6;
         color: #000;
-        box-shadow: 0 6px 14px rgba(0,0,0,0.25);
-        border: 1px solid rgba(0,0,0,0.08);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(0, 0, 0, 0.08);
     }
 
     /* posiciona as setas dentro da área do browser-window, fora da imagem central */
@@ -479,25 +534,31 @@ main {
 
 /* Indica que a imagem é clicável quando estiver dentro de um link */
 .carousel-slide a img,
-.carousel-slide img { 
+.carousel-slide img {
     cursor: pointer;
 }
 
 /* Estilo para vídeo de projeto no carrossel: responsivo e sem poster repetido */
+
 .project-media {
-    width: 100%;
-    max-width: 900px;
-    /* limita a largura do vídeo para caber melhor no layout do browser-window */
-    display: block;
-    margin: 0 auto 8px;
+    width: 98%;
+    /* Pode expandir um pouco mais em telas menores */
+    margin-bottom: 8px;
+    /* Reduz um pouco a largura para ter margem lateral */
+    max-width: 95%;
+    /* Garante que não exceda */
+    margin: 0 auto 10px auto;
+    /* Centraliza horizontalmente e dá uma margem inferior */
+    aspect-ratio: 16 / 9;
+    /* Garante a proporção padrão de vídeo (16:9) */
     position: relative;
-    z-index: 3;
-    /* garante que o vídeo fique acima de outras camadas do slide */
-    /* impede que o vídeo ultrapasse o espaço visível do browser-window */
-    max-height: 64vh;
-    box-sizing: border-box;
+    /* Necessário para posicionar o iframe dentro */
+    height: auto;
+    /* Deixa a altura ser definida pelo aspect-ratio */
     overflow: hidden;
+    /* Garante que nada transborde */
 }
+
 
 /* Placeholder shown before iframe is injected */
 .project-media .embed-placeholder {
@@ -538,12 +599,19 @@ main {
 /* Estilo para embeds iframe (YouTube etc.) - torna o iframe responsivo
    e preserva proporção sem usar atributos width/height no HTML */
 .project-media iframe,
-.project-media .embed-video {
+.project-media .embed-video,
+.project-media video {
+    position: absolute;
+    /* Preenche o .project-media */
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+    object-fit: contain;
+    /* Garante que o vídeo se encaixe sem cortar, se a proporção for diferente do container */
+    /* Se quiser que preencha e corte as laterais/topo, use 'cover' */
     display: block;
-    border: 0;
-    background: #000;
+    border: none;
 }
 
 /* Usamos aspect-ratio na caixa pai para manter 16:9 por padrão */
@@ -563,10 +631,9 @@ main {
 
 .video-poster img {
     width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 4px;
+    height: 100%;
     object-fit: cover;
+    /* Garante que o poster preencha o espaço */
 }
 
 .video-poster .play-btn {
@@ -603,15 +670,110 @@ main {
         max-height: 360px;
         /* limita altura em mobile sem quebrar o layout */
     }
+
+    /* Mantenha esta media query para mobile (ex: @media (max-width: 768px)) */
+    @media (max-width: 768px) {
+
+        /* Garante que o container do carrossel permita posicionar as setas */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* As setas de navegação */
+        .carousel-btn {
+            display: flex;
+            /* Mudar de block para flex para centralizar o ">" ou "<" */
+            align-items: center;
+            /* Centraliza verticalmente o ícone */
+            justify-content: center;
+            /* Centraliza horizontalmente o ícone */
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 38px;
+            /* Largura um pouco menor */
+            height: 38px;
+            /* Altura um pouco menor */
+            font-size: 1.4rem;
+            /* Tamanho do ícone */
+            border-radius: 50%;
+            /* Faz a seta ser redonda */
+            background: rgba(0, 0, 0, 0.6);
+            /* Fundo escuro semi-transparente */
+            color: #fff;
+            /* Ícone branco */
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            /* Uma borda sutil */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 15;
+            /* Garante que fiquem acima de tudo, inclusive do vídeo (z-index 3-5) */
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            /* Adicionar para evitar atraso de clique em mobile */
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .carousel-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .carousel-btn:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+
+        .carousel-btn.prev {
+            left: 5px;
+            /* Posição à esquerda, com uma pequena margem */
+        }
+
+        .carousel-btn.next {
+            right: 5px;
+            /* Posição à direita, com uma pequena margem */
+        }
+
+        /* Margens laterais para o conteúdo do carrossel */
+        .browser-content {
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-bottom: 40px;
+            /* Garante espaço para os dots na parte inferior */
+        }
+    }
+
+    /* Para smartphones muito pequenos, setas ainda menores */
+    @media (max-width: 480px) {
+        .carousel-btn {
+            width: 32px;
+            height: 32px;
+            font-size: 1.2rem;
+            left: 2px;
+            right: 2px;
+        }
+
+        .browser-content {
+            padding-left: 5px;
+            padding-right: 5px;
+            padding-bottom: 35px;
+        }
+    }
 }
 
 /* Estilos específicos quando o vídeo é vertical (portrait) */
-.project-media.vertical {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* portrait / vertical layout: força a proporção 9/16 */
-    aspect-ratio: 9/16;
+.project-media.vertical .project-media.vertical {
+    aspect-ratio: 9 / 16;
+    /* Inverte a proporção para vertical */
+    width: 60%;
+    /* Ocupa menos largura para parecer mais natural */
+    max-height: 80%;
+    /* Não deixa o vídeo vertical ser muito grande */
 }
 
 .project-media.vertical video {
@@ -1096,28 +1258,60 @@ main {
 
     .browser-content {
         padding: 10px;
+        padding-left: 10px;
+        /* 10px ou 15px de margem em cada lado */
+        padding-right: 10px;
         margin: 3px;
     }
 
     .carousel-slide h3 {
-        font-size: 1.5rem;
-        margin-bottom: 10px;
+        font-size: 1.3rem;
+        /* Título um pouco menor */
+        margin-top: 5px;
+        /* Espaço reduzido do topo do slide */
+        margin-bottom: 5px;
     }
 
     /* Aumenta o card (imagem) no mobile grande para ficar mais parecido com desktop */
     .carousel-container {
-        padding: 0 36px; /* espaço lateral para mostrar o fundo do site no mobile */
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* espaço lateral para mostrar o fundo do site no mobile */
         /* reduz a moldura lateral, permite imagem maior */
     }
 
     .carousel-slide img {
-        /* largura reduzida para criar margem lateral no mobile */
+        /* largura reduzida para criar margem lateral no mobile — menor para telas móveis */
         width: auto;
-        max-width: 86%;
+        max-width: 72%;
         max-height: 260px;
         object-fit: cover;
         display: block;
         margin: 0 auto;
+    }
+
+    /* Ajustes visuais para os embeds (YouTube) no mobile: mantenha proporção 16:9
+       mas limite a largura e altura para ficar mais estético dentro do card */
+    .project-media {
+        max-width: 86%;
+        margin: 8px auto 12px auto;
+        aspect-ratio: 16/9;
+        max-height: 45vh;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .project-media iframe,
+    .project-media .embed-video {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+        display: block;
     }
 
     /* Layout horizontal do carrossel em dispositivos móveis: slides em linha e scroll controlado por JS */
@@ -1151,10 +1345,10 @@ main {
         height: 44px;
         font-size: 1.6rem;
         border-radius: 50%;
-        background: rgba(0,0,0,0.65);
+        background: rgba(0, 0, 0, 0.65);
         color: #fff;
         border: none;
-        box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
         z-index: 9999;
         display: block;
         align-items: center;
@@ -1315,21 +1509,43 @@ main {
 
     /* Aumenta o card no smartphone para ficar semelhante ao desktop */
     .carousel-container {
-        padding: 0 12px;
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .carousel-slide img {
+        /* ainda menor em telas muito pequenas para garantir margem e legibilidade */
         width: auto;
-        max-width: 86%;
+        max-width: 68%;
         max-height: 220px;
         object-fit: cover;
         display: block;
         margin: 0 auto;
     }
 
+    .project-media {
+        max-width: 84%;
+        margin: 6px auto 10px auto;
+        aspect-ratio: 16/9;
+        max-height: 40vh;
+    }
+
+    .project-media iframe,
+    .project-media .embed-video {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+        display: block;
+    }
+
     .carousel-slide h3 {
-        font-size: 1.3rem;
-        margin-bottom: 8px;
+
+        font-size: 1.1rem;
+
     }
 
     .carousel-slide p {
@@ -1344,10 +1560,10 @@ main {
         height: 40px;
         font-size: 1.25rem;
         border-radius: 50%;
-        background: rgba(0,0,0,0.65);
+        background: rgba(0, 0, 0, 0.65);
         color: #fff;
         border: none;
-        box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     }
 
     .carousel-btn.prev {
@@ -1580,111 +1796,116 @@ header nav ul a {
     pointer-events: auto;
 }
 
-@media (max-width: 480px) {
-    section {
-        scroll-margin-top: 80px;
+/* =========================
+   Correção da largura do carrossel no mobile
+   ========================= */
+
+@media (max-width: 768px) {
+    .browser-window {
+        width: 95% !important; /* Reduz a largura total */
+        max-width: 95% !important;
+        height: 380px; /* Altura ajustada */
+        margin: 0 auto; /* Centraliza */
+    }
+
+    .browser-content {
+        padding: 8px 5px;
+    }
+
+    .carousel-container {
+        width: 100%;
+        padding: 0 10px; /* Reduz o padding lateral */
+    }
+
+    .carousel-slide {
+        padding: 5px;
+    }
+
+    /* Ajusta a imagem do podcast */
+    .carousel-slide img {
+        max-width: 85% !important; /* Reduz a largura da imagem */
+        height: auto;
+        margin: 0 auto;
+    }
+
+    /* Ajusta os vídeos do YouTube */
+    .project-media {
+        width: 90% !important; /* Reduz a largura dos vídeos */
+        max-width: 90% !important;
+        margin: 0 auto 10px auto;
+    }
+
+    .project-media.vertical {
+        width: 70% !important; /* Vídeos verticais ainda mais estreitos */
+        max-width: 250px !important;
+    }
+
+    /* Garante que as setas fiquem bem posicionadas */
+    .carousel-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 1.3rem;
+    }
+
+    .carousel-btn.prev {
+        left: 5px !important;
+    }
+
+    .carousel-btn.next {
+        right: 5px !important;
     }
 }
 
-img {
-    max-width: 100%;
-    height: auto;
+/* Para telas muito pequenas */
+@media (max-width: 480px) {
+    .browser-window {
+        width: 98% !important; /* Quase a largura total mas com margem */
+        height: 350px;
+    }
+
+    .carousel-container {
+        padding: 0 5px;
+    }
+
+    .carousel-slide img {
+        max-width: 80% !important;
+    }
+
+    .project-media {
+        width: 85% !important;
+    }
+
+    .project-media.vertical {
+        width: 65% !important;
+        max-width: 200px !important;
+    }
+
+    .carousel-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 1.1rem;
+    }
+
+    .carousel-btn.prev {
+        left: 2px !important;
+    }
+
+    .carousel-btn.next {
+        right: 2px !important;
+    }
 }
 
-/* ================= Testemunhos / Depoimentos (carrossel) ================= */
-.testimonials-section {
-    padding-top: 40px;
-    padding-bottom: 60px;
+/* Para tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .browser-window {
+        width: 90% !important;
+        max-width: 90% !important;
+    }
 }
 
-.testimonials-carousel {
-    position: relative;
-    max-width: 1000px;
-    margin: 0 auto;
+/* Correção para garantir que links dentro do carrossel sejam clicáveis */
+.carousel-slide a {
+    position: relative; 
+    z-index: 5; /* Garante que o link fique acima da imagem (z-index: 1) e do texto (z-index: 2) */
+    display: block; /* Faz com que o link ocupe toda a área do seu conteúdo (a imagem) */
 }
-
-.testimonials-track {
-    position: relative;
-    overflow: hidden;
-}
-
-.testi-slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    opacity: 0;
-    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
-    padding: 24px 30px;
-    box-sizing: border-box;
-    text-align: center;
-}
-
-.testi-slide.active {
-    opacity: 1;
-    position: relative;
-}
-
-.testi-slide blockquote {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.08);
-    padding: 22px 26px;
-    border-radius: 10px;
-    color: #fff;
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin: 0 auto;
-    max-width: 900px;
-}
-
-.testi-slide blockquote footer {
-    margin-top: 12px;
-    font-size: 0.95rem;
-    color: rgba(255,255,255,0.8);
-    text-align: right;
-}
-
-.testi-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: #c0c0c0;
-    color: #000;
-    border: 2px outset #fff;
-    width: 44px;
-    height: 44px;
-    border-radius: 6px;
-    cursor: pointer;
-    z-index: 30;
-}
-
-.testi-btn.prev { left: 6px; }
-.testi-btn.next { right: 6px; }
-
-.testi-dots {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    margin-top: 18px;
-}
-
-.testi-dots .dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #c0c0c0;
-    border: 2px outset #fff;
-    cursor: pointer;
-}
-
-.testi-dots .dot.active {
-    background: #000080;
-    border: 2px inset #808080;
-}
-
-@media (max-width: 768px) {
-    .testi-slide blockquote { font-size: 1rem; padding: 18px; }
-    .testi-btn { width: 36px; height: 36px; }
-}
-
-/* Fallback: se preferir layout horizontal em mobile pode-se adaptar depois */
