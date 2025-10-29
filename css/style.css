@@ -2073,3 +2073,28 @@ header nav ul a {
         height: 12px;
     }
 }
+
+@media (max-width: 768px) {
+    .carousel-slides {
+        /* Melhora a experiência de scroll no mobile */
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+    }
+    
+    .carousel-slide {
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+    }
+    
+    /* Garante que os vídeos não interfiram com os gestos */
+    .project-media iframe,
+    .project-media video {
+        pointer-events: none;
+    }
+    
+    /* Permite interação quando necessário (controles de vídeo) */
+    .project-media iframe:hover,
+    .project-media video:hover {
+        pointer-events: auto;
+    }
+}
