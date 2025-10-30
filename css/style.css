@@ -1977,7 +1977,7 @@ header nav ul a {
     font-size: 1.5rem;
     cursor: pointer;
     z-index: 10;
-    transition: all 0.3s ease;
+    transition: all 5.0s ease;
     display: flex;
     align-items: center;
     justify-content: center;
